@@ -1,7 +1,7 @@
 package com.khanhvu.booking_system.exception;
 
 
-import com.khanhvu.booking_system.dto.ApiResponse;
+import com.khanhvu.booking_system.dto.request.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
