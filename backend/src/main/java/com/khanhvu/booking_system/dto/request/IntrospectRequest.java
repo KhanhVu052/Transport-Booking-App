@@ -1,4 +1,5 @@
-package com.khanhvu.booking_system.dto.respone;
+package com.khanhvu.booking_system.dto.request;
+
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-public class AuthenticationResponse {
+
+public class IntrospectRequest {
     String token;
-    boolean authenticated;
 }
