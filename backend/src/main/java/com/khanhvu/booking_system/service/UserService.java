@@ -4,6 +4,7 @@ import com.khanhvu.booking_system.dto.request.UserCreationRequest;
 import com.khanhvu.booking_system.dto.request.UserUpdateRequest;
 import com.khanhvu.booking_system.dto.respone.UserResponse;
 import com.khanhvu.booking_system.entity.User;
+import com.khanhvu.booking_system.enums.Role;
 import com.khanhvu.booking_system.exception.AppException;
 import com.khanhvu.booking_system.exception.ErrorCode;
 import com.khanhvu.booking_system.mapper.UserMapper;
@@ -11,6 +12,8 @@ import com.khanhvu.booking_system.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,15 +29,19 @@ public class UserService {
 
     UserRepository userRepository;
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserCreationRequest request){
         if(userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXISTED);
 
         User user = userMapper.toUser(request);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+
+        user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 

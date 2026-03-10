@@ -2,6 +2,7 @@ package com.khanhvu.booking_system.dto.respone;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import java.util.Set;
 
 import java.time.LocalDate;
 
@@ -13,9 +14,9 @@ import java.time.LocalDate;
 public class UserResponse {
     String id;
     String username;
-    String password;
     String firstName;
     String lastName;
     LocalDate dob;
+    Set<String> roles;
 
 }
