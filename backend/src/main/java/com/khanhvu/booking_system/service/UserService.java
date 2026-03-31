@@ -8,6 +8,7 @@ import com.khanhvu.booking_system.enums.Role;
 import com.khanhvu.booking_system.exception.AppException;
 import com.khanhvu.booking_system.exception.ErrorCode;
 import com.khanhvu.booking_system.mapper.UserMapper;
+import com.khanhvu.booking_system.repository.RoleRepository;
 import com.khanhvu.booking_system.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ import java.util.List;
 public class UserService {
 
     UserRepository userRepository;
+    RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
@@ -66,6 +68,10 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user,request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
 
         return userMapper.toUserResponse(userRepository.save(user));
 
