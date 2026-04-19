@@ -28,22 +28,21 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
             if (userRepository.findByUsername("admin").isEmpty()) {
-                // 1. Tạo hoặc lấy Role ADMIN từ Database
-                // Lưu ý: Nếu báo lỗi chưa có RoleRepository thì bạn nhớ @Autowired nó ở trên nhé
+
                 var adminRole = roleRepository.save(com.khanhvu.booking_system.entity.Role.builder()
                         .name("ADMIN")
                         .description("Administrator role")
                         .build());
 
-                // 2. Gán Role vào một Set (Entity Role chứ không phải String)
+
                 var roles = new HashSet<com.khanhvu.booking_system.entity.Role>();
                 roles.add(adminRole);
 
-                // 3. Tạo User Admin có Role
+
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
-                        .roles(roles) // Chỗ này hết lỗi gạch đỏ rồi nhé!
+                        .roles(roles)
                         .build();
 
                 userRepository.save(user);
