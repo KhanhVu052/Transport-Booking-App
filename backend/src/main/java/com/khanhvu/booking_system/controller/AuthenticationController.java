@@ -4,6 +4,7 @@ package com.khanhvu.booking_system.controller;
 import com.khanhvu.booking_system.dto.request.ApiResponse;
 import com.khanhvu.booking_system.dto.request.AuthenticationRequest;
 import com.khanhvu.booking_system.dto.request.IntrospectRequest;
+import com.khanhvu.booking_system.dto.request.LogoutRequest;
 import com.khanhvu.booking_system.dto.respone.AuthenticationResponse;
 import com.khanhvu.booking_system.dto.respone.IntrospectResponse;
 import com.khanhvu.booking_system.service.AuthenticationService;
@@ -36,10 +37,18 @@ public class AuthenticationController {
     @PostMapping("/introspect")
     public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request)
             throws ParseException, JOSEException {
-        var result = authenticationService.introspectResponse(request);
+        var result = authenticationService.introspect(request);
 
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 

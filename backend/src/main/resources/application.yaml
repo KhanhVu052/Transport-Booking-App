@@ -11,8 +11,10 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
 
 jwt:
   signer-key: "a8c52ea7607393929dd1d393d0a0519879fbf22b28e10b4b9f5b91fbfb4db051"
+  valid-duration: 3600 # in second
+  refreshable-duration: 36000 # in seconds
